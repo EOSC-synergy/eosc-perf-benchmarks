@@ -21,10 +21,19 @@ echo -e "Y\nN\nn\nY\nn\nY\nn\n" | ${PHORONIX} batch-setup
 echo -e "${INTERNAL_FILE_NAME}\n${RESULT_NAME}\n" | ${PHORONIX} batch-benchmark "${BENCHMARK}"
 # store pts result
 mkdir -p "${OUT_DIR}"
-${PHORONIX} result-file-to-json "${INTERNAL_FILE_NAME}" > "${OUT_FILE}.tmp"
+OUTPUT_FILE=${OUT_DIR}/result.json.tmp ${PHORONIX} result-file-to-json "${INTERNAL_FILE_NAME}"
 # restructure output json
-python3 /extract_and_add_meta.py "${OUT_FILE}.tmp" "${RESULT_NAME}" > "${OUT_FILE}"
-# echo json back to terminal in case files are inacessible
-cat ${OUT_FILE}
-# remove leftovers
-rm "${OUT_FILE}.tmp"
+if python3 /extract_and_add_meta.py "${OUT_FILE}.tmp" "${RESULT_NAME}" > "${OUT_FILE}"; then
+  # echo json back to terminal in case files are inacessible
+  echo "##########################################"
+  echo "Your result.json is:"
+  echo "##########################################"
+  cat ${OUT_FILE}
+  echo "##########################################"
+
+  # remove leftovers
+  rm "${OUT_FILE}.tmp"
+else
+  echo "Failed to parse output!"
+fi
+

@@ -9,9 +9,9 @@ RUN apt-get update \
 
 # install phoronix test suite
 RUN cd /tmp \
-    && wget http://phoronix-test-suite.com/releases/repo/pts.debian/files/phoronix-test-suite_10.0.1_all.deb \
-    && dpkg -i phoronix-test-suite_10.0.1_all.deb \
-    && rm -f phoronix-test-suite_10.0.1_all.deb
+    && wget https://phoronix-test-suite.com/releases/repo/pts.debian/files/phoronix-test-suite_10.8.2_all.deb \
+    && dpkg -i phoronix-test-suite_10.8.2_all.deb \
+    && rm -f phoronix-test-suite_10.8.2_all.deb
 
 # install requirements for the python script
 ADD requirements.txt /requirements.txt

@@ -19,23 +19,23 @@ def main():
         except json.JSONDecodeError as e:
             print("Unable to parse input JSON!", file=sys.stderr)
             print(contents, file=sys.stderr)
+            return
 
     # extract data from phoronix format to single result format
     # assume only one result in file
     # { "results": {all_data} } => {all_data}
-    data = in_data["results"][0]
+    data = in_data["results"][next(iter(in_data["results"]))]
     # { "results": { "result_name": {result_data}} => {"result": {result_data}}
     data["result"] = data["results"][args.result_name]
     data.pop("results")
 
-    data["result"]["score"] = float(data["result"]["score"])
-
     # optional additional relevant data (e.g. CPU info for c-ray)
-    data["machine"] = {}
-    data["machine"]["cpu"] = get_cpu_info()
+    machine_data = { "cpu": get_cpu_info() }
+
+    output_data = { "pts": data, "machine": machine_data }
 
     # write resulting data
-    print(json.dumps(data, indent=4, sort_keys=True))
+    print(json.dumps(output_data, indent=4, sort_keys=True))
 
 
 if __name__ == "__main__":
