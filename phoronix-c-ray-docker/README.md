@@ -5,7 +5,7 @@ eosc-perf.
 
 To run the current release:
 1. `mkdir out`
-1. `docker run -v $(pwd)/out:/out_dir perfbench/openbench-c-ray:2`
+1. `docker run -v $(pwd)/out:/out_dir perfbench/openbench-c-ray:v1`
 1. The result.json should now be in ./bench_out
 
 To run a development build:
